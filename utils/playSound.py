@@ -3,6 +3,7 @@ import numpy as np
 import pyaudio
 
 def play_sound(frequency, duration, volume):
+    # volume is 0 is 0db and 1 is 60db
     p = pyaudio.PyAudio()
     
     # Parameters
@@ -27,4 +28,4 @@ def play_sound(frequency, duration, volume):
     p.terminate()
 
 # Example usage:
-play_sound(frequency=180, duration=2, volume=0.28) 
+play_sound(frequency=140, duration=2, volume=1.0)
