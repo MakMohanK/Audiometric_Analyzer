@@ -1,5 +1,5 @@
 # Audiometric_Analyzer
 Hearing Aid Project
 
-## Disctription
+## Description
 ![Architecture](./img/architecture.png)
