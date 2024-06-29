@@ -2,10 +2,10 @@ import sqlite3
 from getpass import getpass
 import hashlib
 
-USER_MANAGEMNET_DATABASE = './database/user_management.db'
+USER_MANAGEMENT_DATABASE = './database/user_management.db'
 
 def create_database():
-    conn = sqlite3.connect(USER_MANAGEMNET_DATABASE)
+    conn = sqlite3.connect(USER_MANAGEMENT_DATABASE)
     cur = conn.cursor()
     cur.execute('''CREATE TABLE IF NOT EXISTS users (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -14,7 +14,8 @@ def create_database():
                     userfullname,
                     usergender,
                     userage,
-                    userdob)''')
+                    useremail,
+                    userphoneno)''')
     conn.commit()
     conn.close()
 
@@ -23,11 +24,17 @@ def register():
     password = getpass("Enter a password: ")
     password_hash = hashlib.sha256(password.encode()).hexdigest()
 
-    conn = sqlite3.connect(USER_MANAGEMNET_DATABASE)
+    conn = sqlite3.connect(USER_MANAGEMENT_DATABASE)
     cur = conn.cursor()
     
     try:
         cur.execute("INSERT INTO users (username, password) VALUES (?, ?)", (username, password_hash))
+        name = input("Enter your full name")
+        gender = input("Enter your gender? M or F")
+        age = input("Enter your age")
+        email = input("Enter your email")
+        phoneNumber = input("Enter your phone number")
+        cur.execute("INSERT INTO users (userfullname, usergender, userage, useremail, userphoneno) VALUES (?, ?, ?, ?, ?)", (name, gender, age, email, phoneNumber))
         conn.commit()
         print("User registered successfully!")
     except sqlite3.IntegrityError:
@@ -40,7 +47,7 @@ def login():
     password = getpass("Enter your password: ")
     password_hash = hashlib.sha256(password.encode()).hexdigest()
 
-    conn = sqlite3.connect(USER_MANAGEMNET_DATABASE)
+    conn = sqlite3.connect(USER_MANAGEMENT_DATABASE)
     cur = conn.cursor()
     
     cur.execute("SELECT * FROM users WHERE username = ? AND password = ?", (username, password_hash))
