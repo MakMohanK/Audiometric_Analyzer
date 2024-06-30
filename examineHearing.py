@@ -3,6 +3,7 @@ import threading
 import time
 import numpy as np
 import pyaudio
+import playSound
 
 EXAMINATION_DATABASE = './database//examination.db'
 
@@ -19,40 +20,9 @@ c.execute('''CREATE TABLE IF NOT EXISTS hearing_results
 
 conn.commit()
 
-def play_sound(frequency, volume, duration, sample_rate=44100):
-    
-    if not (0.0 <= volume <= 1.0):
-        raise ValueError("Volume must be between 0.0 and 1.0")
-
-    t = np.linspace(0, duration, int(sample_rate * duration), False)
-
-    waveform = np.sin(frequency * 2 * np.pi * t)
-
-    waveform *= volume
-
-    waveform = np.clip(waveform, -1.0, 1.0)
-
-    audio = (waveform * 32767).astype(np.int16)
-
-    p = pyaudio.PyAudio()
-
-    stream = p.open(format=pyaudio.paInt16,
-                    channels=1,
-                    rate=sample_rate,
-                    output=True)
-
-    audio_bytes = audio.tobytes()
-
-    stream.write(audio_bytes)
-
-    stream.stop_stream()
-    stream.close()
-
-    p.terminate()
-
 def examine(frequency, volume, duration):
     print(f"Playing sound at {frequency} Hz, {volume} dB for {duration} seconds.")
-    play_sound(frequency, volume, duration)
+    playSound.play_sound(frequency, volume, duration)
     user_response = askUserCanHear()
     if user_response is None:
         heard = 0
