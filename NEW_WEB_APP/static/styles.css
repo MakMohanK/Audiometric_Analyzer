@@ -1,0 +1,142 @@
+/* static/styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+.container {
+    width: 80%;
+    margin: auto;
+    background-color: #fff;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+form {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"]
+ {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="number"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type="date"] {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    /* Additional styles to override default appearance */
+    appearance: none; /* Removes default appearance */
+    -webkit-appearance: none; /* For older versions of Chrome/Safari */
+    /* Optional: Customize appearance to match other inputs */
+    background-color: white;
+    color: #555;
+}
+
+/* Optional: Style the dropdown arrow icon */
+input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(40%);
+    /* Adjust the filter as needed to match your design */
+    cursor: pointer;
+}
+
+.gender-radio {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.gender-label {
+    font-size: 16px;
+    color: #333;
+}
+
+/* Optional: Adjust appearance of radio buttons */
+.gender-radio input[type="radio"] {
+    margin-right: 5px;
+    /* Adjust spacing between radio button and label */
+}
+
+input[type="submit"] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.error {
+    color: red;
+    font-size: 14px;
+}
+
+.success {
+    color: green;
+    font-size: 14px;
+}
+
+.gender-select {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.profile {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.logout-btn {
+    background-color: #f44336;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f;
+}
