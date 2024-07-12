@@ -1,16 +1,13 @@
 import numpy as np
 import pyaudio
 
-def play_sound(frequency, volume, duration, sample_rate=44100):
-    
-    if not (0.0 <= volume <= 1.0):
-        raise ValueError("Volume must be between 0.0 and 1.0")
+def play_sound(frequency, decibels, duration, sample_rate=44100):
 
     t = np.linspace(0, duration, int(sample_rate * duration), False)
 
     waveform = np.sin(frequency * 2 * np.pi * t)
 
-    waveform *= volume
+    waveform *= (10**(decibels/20))
 
     waveform = np.clip(waveform, -1.0, 1.0)
 
@@ -31,5 +28,3 @@ def play_sound(frequency, volume, duration, sample_rate=44100):
     stream.close()
 
     p.terminate()
-
-play_sound(440, 0.5, 1)
