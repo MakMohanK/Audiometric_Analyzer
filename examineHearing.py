@@ -14,12 +14,13 @@ cur = conn.cursor()
 cur.execute('''CREATE TABLE IF NOT EXISTS hearing_results (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 username TEXT UNIQUE,
-                sixty INTEGER,
-                fifty INTEGER,
-                forty INTEGER,
-                thirty INTEGER,
-                twenty INTEGER,
-                ten INTEGER)''')
+                negative fifty INTEGER,
+                negative forty five INTEGER,
+                negative forty INTEGER,
+                negative thirty five INTEGER,
+                negative thirty INTEGER,
+                negative twenty five INTEGER,
+                negative twenty INTEGER)''')
 
 conn.commit()
 
@@ -39,6 +40,31 @@ def examine(frequency, decibels, duration):
 
     return heard
 
+words = [
+    "bare",
+    "flower",
+    "knight",
+    "see",
+    "peace"
+]
+
+def hearing_test():
+    """Conduct a hearing test with commonly misheard words."""
+    print("Welcome to the Hearing Test!")
+    score = 0
+
+    for word in words:
+        playSound.play_word(word)
+        user_input = input(f"Type the word you heard: ").strip().lower()
+
+        if user_input == word:
+            print("Correct!")
+            score += 1
+        else:
+            print(f"Wrong! The correct word was '{word}'.")
+
+    print(f"Your score: {score}/{len(words)}")
+
 def askUserCanHear():
     print("Can you hear the sound? (yes/no)")
     # timer = threading.Timer(2.0)
@@ -49,13 +75,12 @@ def askUserCanHear():
 
 def playAllFrequencies(username):
     frequencies = [140, 130, 120, 110, 100, 90, 80, 70, 60, 50, 40, 30, 20]
-    decibel_levels = [10, 20, 30, 40, 50, 60]
+    decibel_levels = [-50, -45, -40, -35, -30, -25, -20]
     heard_frequencies = []
-    min_frequency = 140
-    num2words = {10:"ten", 20:"twenty", 30:"thirty", 40:"forty", 50:"fifty", 60:"sixty"}
+    min_frequency = 150
 
     for decibel in decibel_levels:
-        for frequency in frequencies:
+        for frequency in frequencies: 
             if frequency>=min_frequency:
                 continue
             heard = examine(frequency, decibel, 1)
@@ -67,7 +92,7 @@ def playAllFrequencies(username):
         heard_frequencies.append(min_frequency)
     
         
-    cur.execute('INSERT INTO hearing_results (username, sixty, fifty, forty, thirty, twenty, ten) VALUES (?, ?, ?, ?, ?, ?, ?)', (username, heard_frequencies[0], heard_frequencies[1], heard_frequencies[2], heard_frequencies[3], heard_frequencies[4], heard_frequencies[5]))
+    cur.execute('INSERT INTO hearing_results (username,negative fifty,negative forty five,negative forty,negative thirty five,negative thirty,negative twenty five,negative twenty) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', (username, heard_frequencies[0], heard_frequencies[1], heard_frequencies[2], heard_frequencies[3], heard_frequencies[4], heard_frequencies[5], heard_frequencies[6]))
     conn.commit()
 
     d = np.array(decibel_levels)
@@ -75,5 +100,7 @@ def playAllFrequencies(username):
 
     plt.scatter(d,f)
     plt.show()
+
+playAllFrequencies("NirvaanZ")
 
 conn.close()
