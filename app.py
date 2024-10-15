@@ -1,6 +1,8 @@
 # app.py (part of the code)
 
+import ast
 import datetime
+import json
 import sqlite3
 
 from datetime import datetime as dt
@@ -52,7 +54,7 @@ import time
 
 
 from utils.age_calculator import calculate_age
-from utils.array_shape import transform_list
+from utils.array_shape import transform_list, plot_and_save_responses_by_age
 from utils.machine_learning import predict_age
 
 
@@ -258,9 +260,40 @@ def register():
         return redirect(url_for('login'))
     return render_template('register.html')
 
+
+# Route to perform analysis and return the image path
+@app.route('/perform_analysis/<int:row_id>')
+def perform_analysis(row_id):
+    # Here you would implement the actual analysis logic based on row_id
+    # This is a placeholder that returns a static image for all rows
+    conn = get_db_connection()
+    data = conn.execute('SELECT * FROM analysis_results WHERE id =?', (row_id,)).fetchone()    # Fetch multiple entries
+    conn.close()
+
+    # print(data['response'])
+
+    # Convert the string to a Python list safely
+    try:
+        responses = ast.literal_eval(data['response'])
+        print(responses)
+    except (ValueError, SyntaxError) as e:
+        print(f"Error parsing data: {e}")
+
+    # print(responses)
+    plot_and_save_responses_by_age(int(data['pred_age']), responses)
+
+    analysis_result_image = url_for('static', filename='./imgs/result_img.png')
+
+    # Return the image path as a JSON response
+    return jsonify({'image_path': analysis_result_image})
+
 @app.route('/dashboard')
 def dashboard():
-    return render_template('dashboard.html')
+    user_id = session['user_id']
+    conn = get_db_connection()
+    data = conn.execute('SELECT * FROM analysis_results WHERE user_id =?', (user_id,)).fetchall()    # Fetch multiple entries
+    conn.close()
+    return render_template('dashboard.html', data=data)
 
 @app.route('/change_password', methods=['GET', 'POST'])
 def change_password():

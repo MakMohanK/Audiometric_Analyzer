@@ -50,7 +50,7 @@ def plot_and_save_responses_by_age(age, responses):
 
     # Save the figure to a file
     plt.savefig(filename, bbox_inches='tight')  # Saves the plot as an image
-    print(f"Graph saved as {filename}")
+    # print(f"Graph saved as {filename}")
     # plt.show()
     plt.close()
     
