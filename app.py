@@ -22,8 +22,9 @@ def init_db():
         password TEXT NOT NULL,
         first_name TEXT NOT NULL,        -- Adding first name
         last_name TEXT NOT NULL,         -- Adding last name
+        gender TEXT NOT NULL,            -- Adding gender
         mobile_number TEXT NOT NULL,     -- Adding mobile number
-        role TEXT NOT NULL,               -- Adding role Doctor or patient
+        role TEXT NOT NULL,              -- Adding role Doctor or patient
         dob DATE NOT NULL                -- Adding Date of Birth for future analysis
     )
     ''')
@@ -62,8 +63,8 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 pygame.mixer.init()
 
-frequencies = list(range(100, 141, 10))  # made changes just for app testing
-decibels = list(range(-40, -29, 10))     # Decibels from -40dB to -30dB, step 5dB
+frequencies = list(range(20, 51, 10)) + list(range(12000, 18001, 500))  # made changes just for app testing
+decibels = list(range(-45, -34, 5))                                     # Decibels from -45dB to -35dB, step 5dB
 
 # To store user responses
 user_responses = []
@@ -241,14 +242,15 @@ def register():
         email = request.form['email']
         password = generate_password_hash(request.form['password'])
         role = request.form['role']
+        gender = request.form['gender']
 
         conn = get_db_connection()
         cursor = conn.cursor()
         try:
             cursor.execute('''
-                INSERT INTO users (username, email, password, first_name, last_name, mobile_number, role, dob) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-                ''',(username, email, password, first_name, last_name, mobile_number, role, dob))
+                INSERT INTO users (username, email, password, first_name, last_name, gender, mobile_number, role, dob) 
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ''',(username, email, password, first_name, last_name, gender, mobile_number, role, dob))
             conn.commit()
         except sqlite3.IntegrityError:
             flash('Username or email already exists')
@@ -395,6 +397,7 @@ def login():
             session['username'] = user['username']
             session['first_name'] = user['first_name'][0].upper()+user['first_name'][1:]
             session['last_name'] = user['last_name'][0].upper()+user['last_name'][1:]
+            session['gender'] = user['gender']
             flash('Login successful!')
             return redirect(url_for('dashboard'))
         else:
