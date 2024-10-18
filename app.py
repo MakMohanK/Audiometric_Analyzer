@@ -9,7 +9,7 @@ from datetime import datetime as dt
 
 # Ensure the database has the necessary column
 
-DB_Path = './database/auth.db'
+DB_Path = './machine_learning/database/auth.db'
 
 def init_db():
     conn = sqlite3.connect(DB_Path)
@@ -360,10 +360,28 @@ def analyze():
         user = cursor.fetchone()
         conn.close()
 
+        gender = session['gender']
+        if gender == "Male":
+            sent_gen = 1
+        else:
+            sent_gen = 0
+
         current_age = calculate_age(user['dob'])
-        array = transform_list(current_age, user_responses)
+        array = transform_list(sent_gen, current_age, user_responses)
         pred_age = predict_age(array)
 
+        Auditory_health = "None"
+
+        results = pred_age - array[1]
+
+        if results > 0:
+            Auditory_health = "Consider Consultation with Doctor !"
+        elif results < 0:
+            Auditory_health = "Awesome, Your hearing age is younger than your actual age!"
+        else:
+            Auditory_health = "Your Audiometric Health is Awesome!"
+
+        # print("Predicted Age:", pred_age)
         # Save the results in database
         conn = get_db_connection()
         cursor = conn.cursor()
@@ -375,9 +393,9 @@ def analyze():
         conn.close()
 
         # need to add machine learning for showing results.
-        analysis_result = "As per analysis your Hearing age is :"+ str(array[0]) 
+        analysis_result = "As per analysis your Hearing age is :"+ str(pred_age) 
 
-    return render_template('analyze.html', result=analysis_result)
+    return render_template('analyze.html', result=analysis_result, health= Auditory_health)
 
 
 @app.route('/login', methods=['GET', 'POST'])

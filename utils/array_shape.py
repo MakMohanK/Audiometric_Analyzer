@@ -21,10 +21,11 @@ img_save_path = "./static/imgs/result_img.png"
 #     {'frequency': 140, 'decibel': -30, 'response': 'Yes'}
 # ]
 
-def transform_list(age, responses):
+def transform_list(gender, age, responses):
     plot_and_save_responses_by_age(age, responses)
     response_array = [1 if r['response'] == 'Yes' else 0 for r in responses]
-    response_array.insert(0, age)
+    response_array.insert(0, gender)
+    response_array.insert(1, age)
     return response_array
 
 def plot_and_save_responses_by_age(age, responses):
