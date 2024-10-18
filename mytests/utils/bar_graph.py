@@ -1,28 +1,121 @@
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+import pandas as pd
 
-# Sample data
-x_label = 'Category A'
-y_values = [10, 10, 10, 20, 20, 20]  # Three values for the y-axis
-labels = ['Value 1', 'Value 2', 'Value 3', 'Value 4', 'Value 5', 'Value 6']  # Labels for each bar
+# Data
+data = [{'frequency': 20, 'decibel': -45, 'response': 'No'}, 
+        {'frequency': 20, 'decibel': -40, 'response': 'No'}, 
+        {'frequency': 20, 'decibel': -35, 'response': 'No'}, 
+        {'frequency': 30, 'decibel': -45, 'response': 'No'}, 
+        {'frequency': 30, 'decibel': -40, 'response': 'No'}, 
+        {'frequency': 30, 'decibel': -35, 'response': 'No'}, 
+        {'frequency': 40, 'decibel': -45, 'response': 'No'}, 
+        {'frequency': 40, 'decibel': -40, 'response': 'No'}, 
+        {'frequency': 40, 'decibel': -35, 'response': 'Yes'}, 
+        {'frequency': 50, 'decibel': -45, 'response': 'Yes'}, 
+        {'frequency': 50, 'decibel': -40, 'response': 'Yes'}, 
+        {'frequency': 50, 'decibel': -35, 'response': 'Yes'}, 
+        {'frequency': 12000, 'decibel': -45, 'response': 'No'}, 
+        {'frequency': 12000, 'decibel': -40, 'response': 'No'}, 
+        {'frequency': 12000, 'decibel': -35, 'response': 'No'}, 
+        {'frequency': 12500, 'decibel': -45, 'response': 'No'}, 
+        {'frequency': 12500, 'decibel': -40, 'response': 'No'}, 
+        {'frequency': 12500, 'decibel': -35, 'response': 'No'}, 
+        {'frequency': 13000, 'decibel': -45, 'response': 'Yes'}, 
+        {'frequency': 13000, 'decibel': -40, 'response': 'No'}, 
+        {'frequency': 13000, 'decibel': -35, 'response': 'No'}, 
+        {'frequency': 13500, 'decibel': -45, 'response': 'No'}, 
+        {'frequency': 13500, 'decibel': -40, 'response': 'Yes'}, 
+        {'frequency': 13500, 'decibel': -35, 'response': 'No'}, 
+        {'frequency': 14000, 'decibel': -45, 'response': 'No'}, 
+        {'frequency': 14000, 'decibel': -40, 'response': 'No'}, 
+        {'frequency': 14000, 'decibel': -35, 'response': 'Yes'}, 
+        {'frequency': 14500, 'decibel': -45, 'response': 'No'}, 
+        {'frequency': 14500, 'decibel': -40, 'response': 'No'}, 
+        {'frequency': 14500, 'decibel': -35, 'response': 'Yes'}, 
+        {'frequency': 15000, 'decibel': -45, 'response': 'No'}, 
+        {'frequency': 15000, 'decibel': -40, 'response': 'No'}, 
+        {'frequency': 15000, 'decibel': -35, 'response': 'No'}, 
+        {'frequency': 15500, 'decibel': -45, 'response': 'Yes'}, 
+        {'frequency': 15500, 'decibel': -40, 'response': 'No'}, 
+        {'frequency': 15500, 'decibel': -35, 'response': 'No'}, 
+        {'frequency': 16000, 'decibel': -45, 'response': 'No'}, 
+        {'frequency': 16000, 'decibel': -40, 'response': 'No'}, 
+        {'frequency': 16000, 'decibel': -35, 'response': 'No'}, 
+        {'frequency': 16500, 'decibel': -45, 'response': 'Yes'}, 
+        {'frequency': 16500, 'decibel': -40, 'response': 'No'}, 
+        {'frequency': 16500, 'decibel': -35, 'response': 'No'}, 
+        {'frequency': 17000, 'decibel': -45, 'response': 'No'}, 
+        {'frequency': 17000, 'decibel': -40, 'response': 'No'}, 
+        {'frequency': 17000, 'decibel': -35, 'response': 'No'}, 
+        {'frequency': 17500, 'decibel': -45, 'response': 'No'}, 
+        {'frequency': 17500, 'decibel': -40, 'response': 'Yes'}, 
+        {'frequency': 17500, 'decibel': -35, 'response': 'No'}, 
+        {'frequency': 18000, 'decibel': -45, 'response': 'No'}, 
+        {'frequency': 18000, 'decibel': -40, 'response': 'No'}, 
+        {'frequency': 18000, 'decibel': -35, 'response': 'No'}]
 
-# Set positions for the bars
-x_pos = np.arange(len(labels))
+def create_2d_array(data, num_cols):
+    # Split the data into chunks of size num_cols
+    # result = [data[i:i + num_cols] for i in range(0, len(data), num_cols)]
 
-# Create a bar graph
-plt.figure(figsize=(6, 4))
-plt.bar(x_pos, y_values, color=['blue', 'orange', 'green'])
+    result = []
+    length = len(data)
+    for x in range(0, length, 3):
+        chunk = [data[x], data[x+1], data[x+2]]
+        result.append(chunk)
+    return result
 
-# Add titles and labels
-plt.title('Bar Graph for One Category with Multiple Values')
-plt.xlabel('Categories')
-plt.ylabel('Values')
+def main():
+    # Convert to DataFrame
+    df = pd.DataFrame(data)
 
-# Customize x-axis ticks
-plt.xticks(x_pos, labels)
+    # Sample data (replace with your data)
+    # frequencies = [20, 30, 40, 50, 12000, 12500, 13000, 13500, 14000, 14500]
+    # decibels = [-45, -40, -35]
+    # responses = [['No', 'No', 'Yes'], ['No', 'No', 'Yes'], ['No', 'Yes', 'Yes'],  # 10 rows for each frequency
+    #              ['Yes', 'Yes', 'Yes'], ['No', 'No', 'No'], ['No', 'No', 'No'], 
+    #              ['No', 'No', 'No'], ['No', 'No', 'No'], ['No', 'No', 'No'], ['No', 'No', 'No']]
 
-# Show grid lines
-plt.grid(axis='y', linestyle='--', alpha=0.2)
 
-# Display the bar graph
-plt.show()
+    frequencies = df['frequency'].unique()
+    decibels = df['decibel'].unique()
+    responses = create_2d_array(df['response'], 3)
+    # print(responses)
+
+    # Create a figure and add 3D subplot
+    fig = plt.figure(figsize=(16, 10))
+    ax = fig.add_subplot(111, projection='3d')
+
+    # Define the x, y, and z positions for the bars
+    xpos, ypos = np.meshgrid(np.arange(len(frequencies)), np.arange(len(decibels)))
+    xpos = xpos.flatten()
+    ypos = ypos.flatten()
+    zpos = np.zeros(len(xpos))
+
+    # Define bar widths and heights
+    dx = dy = 0.5
+    dz = np.array([1 if responses[i // len(decibels)][i % len(decibels)] == 'Yes' else 0 for i in range(len(xpos))])
+
+    # Plot the 3D bars
+    ax.bar3d(xpos, ypos, zpos, dx, dy, dz, color=['green' if d == 1 else 'red' for d in dz])
+
+    # Setting the labels
+    ax.set_xticks(np.arange(len(frequencies)))
+    ax.set_xticklabels(frequencies)
+    ax.set_yticks(np.arange(len(decibels)))
+    ax.set_yticklabels(decibels)
+    ax.set_xlabel('Frequency (Hz)')
+    ax.set_ylabel('Decibel (dB)')
+    ax.set_zlabel('Response (Yes/No)')
+
+    
+
+    plt.savefig("image.png", bbox_inches='tight')
+    # Show the plot
+    plt.show()
+    
+
+
+main()
